@@ -3,7 +3,6 @@
 #include <time.h>
 #include <unistd.h>
 
-
 typedef struct tableau{
 	int taille;
 	int tab[100];

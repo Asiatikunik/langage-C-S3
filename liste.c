@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 	
 struct element {
 	int val;
@@ -10,6 +11,10 @@ typedef struct element Element;
 typedef int bool;
 typedef Element *Liste;
 
+int alea(int n) {
+
+	return (rand()%(n+1));
+}
 
 int estVide(Liste l) {
 	return l==NULL;
@@ -91,7 +96,7 @@ Liste ajoutF(Liste l, int e) {
 	
 }
 
-Liste estTrie(Liste l) {
+int estTrie(Liste l) {
 	
 	if(estVide(l) || estVide(l->suiv))
 		return 1;
@@ -117,22 +122,59 @@ Liste ajoutT(Liste l, int e) {
 	return l;
 }
 
+int taille(Liste l) {
+	
+	if(estVide(l))
+		return 0;
+			
+	return 1+taille(l->suiv);
+}
+
+int rechercher(Liste l, int e) {
+	
+	if(estVide(l))
+		return 0;
+	
+	if(l->val==e)
+		return 1;
+		
+	return rechercher(l->suiv,e);
+}
+
+Liste suppression(Liste l, int e) {
+	Liste l2;
+	if(estVide(l)) return l;
+	if(l->val==e) {
+		l2=l->suiv;
+		free(l);
+		return l2;
+	}
+	
+	l->suiv=suppression(l->suiv,e);
+	return l;
+}
+
 int main() {
 
 	system("clear");
-	int s;
-	
+	srand(time(NULL));
 	Liste l=creerListe();
-	l=ajoutD(l,2);
-	l=ajoutD(l,3);
-	l=ajoutD(l,1);
-	l=ajoutF(l,10);
+	
+	l=ajoutD(l,alea(50));
+	l=ajoutD(l,alea(50));
+	l=ajoutD(l,alea(50));
+	l=ajoutF(l,alea(50));
 	afficher_liste(l);
 	
-	estTrie(l);
-	//if (s==1)
-		//printf("il est trié \n");
+	int s=estTrie(l);
+	if (s==1)
+		printf("il est trié \n");
+	else
+		printf("n'est pas trié \n");
 		
+	int nb=taille(l);
+	printf("la taille est de %d \n", nb);
+	
 	libere(l);
 	
 	return 0;

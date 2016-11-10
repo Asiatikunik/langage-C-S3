@@ -12,7 +12,7 @@ plam.o: plam.c
 plim.o: plim.c
 	gcc -c plim.c -Wall
 	
-toto: plim.o plam.o ploum.c
+toto: plim.o plam.o ploum.o
 	gcc plim.o plam.o ploum.o -o toto
 	
 clean:
